@@ -750,13 +750,13 @@ void RenderVulkan::build_raytracing_pipeline()
 #endif
             .build(*device);
 
-    const size_t total_geom =
-        std::accumulate(meshes.begin(),
-                        meshes.end(),
-                        0,
-                        [](size_t n, const std::unique_ptr<vkrt::TriangleMesh> &t) {
-                            return n + t->geometries.size();
-                        });
+    // const size_t total_geom =
+    //     std::accumulate(meshes.begin(),
+    //                     meshes.end(),
+    //                     0,
+    //                     [](size_t n, const std::unique_ptr<vkrt::TriangleMesh> &t) {
+    //                         return n + t->geometries.size();
+    //                     });
 
     textures_desc_layout =
         vkrt::DescriptorSetLayoutBuilder()
@@ -881,26 +881,26 @@ void RenderVulkan::build_shader_binding_table()
     for (size_t i = 0; i < parameterized_meshes.size(); ++i) {
         const auto &pm = parameterized_meshes[i];
         for (size_t j = 0; j < meshes[pm.mesh_id]->geometries.size(); ++j) {
-            auto &geom = meshes[pm.mesh_id]->geometries[j];
+            const auto &geom = meshes[pm.mesh_id]->geometries[j];
             const std::string hg_name =
                 "HitGroup_param_mesh" + std::to_string(i) + "_geom" + std::to_string(j);
 
             HitGroupParams *params =
                 reinterpret_cast<HitGroupParams *>(shader_table.sbt_params(hg_name));
 
-            params->vert_buf = meshes[pm.mesh_id]->geometries[j].vertex_buf->device_address();
-            params->idx_buf = meshes[pm.mesh_id]->geometries[j].index_buf->device_address();
+            params->vert_buf = geom.vertex_buf->device_address();
+            params->idx_buf = geom.index_buf->device_address();
 
-            if (meshes[pm.mesh_id]->geometries[j].normal_buf) {
+            if (geom.normal_buf) {
                 params->normal_buf =
-                    meshes[pm.mesh_id]->geometries[j].normal_buf->device_address();
+                    geom.normal_buf->device_address();
                 params->num_normals = 1;
             } else {
                 params->num_normals = 0;
             }
 
-            if (meshes[pm.mesh_id]->geometries[j].uv_buf) {
-                params->uv_buf = meshes[pm.mesh_id]->geometries[j].uv_buf->device_address();
+            if (geom.uv_buf) {
+                params->uv_buf = geom.uv_buf->device_address();
                 params->num_uvs = 1;
             } else {
                 params->num_uvs = 0;

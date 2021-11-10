@@ -95,7 +95,7 @@ void RenderOptiX::initialize(const int fb_width, const int fb_height)
 #endif
 
     if (native_display) {
-        if (gl_display_texture != -1) {
+        if (gl_display_texture != (GLuint)-1) {
             cudaGraphicsUnregisterResource(cu_display_texture);
             glDeleteTextures(1, &gl_display_texture);
         }
