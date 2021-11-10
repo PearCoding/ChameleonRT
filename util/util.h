@@ -4,7 +4,7 @@
 #include <glm/glm.hpp>
 
 // Format the count as #G, #M, #K, depending on its magnitude
-std::string pretty_print_count(const double count);
+std::string pretty_print_count(const size_t count);
 
 uint64_t align_to(uint64_t val, uint64_t align);
 

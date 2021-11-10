@@ -20,11 +20,11 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
-std::string pretty_print_count(const double count)
+std::string pretty_print_count(const size_t count)
 {
-    const double giga = 1000000000;
-    const double mega = 1000000;
-    const double kilo = 1000;
+    const size_t giga = 1000000000;
+    const size_t mega = 1000000;
+    const size_t kilo = 1000;
     if (count > giga) {
         return std::to_string(count / giga) + " G";
     } else if (count > mega) {
