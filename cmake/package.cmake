@@ -69,8 +69,11 @@ macro(crt_add_packaged_dependency TARGET_NAME)
     else()
         get_target_property(LIBRARY ${TARGET_NAME} IMPORTED_LOCATION_${CONFIGURATION})
     endif()
+
     # Resolve symlinks in the library name we're given
-    file(REAL_PATH ${LIBRARY} LIBRARY)
+    if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.21.0") 
+        file(REAL_PATH ${LIBRARY} LIBRARY)
+    endif()
 
     crt_install_namelink(${LIBRARY})
     install(PROGRAMS ${LIBRARY}

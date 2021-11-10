@@ -45,8 +45,11 @@ endif()
 target_link_libraries(util PUBLIC
     SDL2::SDL2
     SDL2::SDL2main)
-install(IMPORTED_RUNTIME_ARTIFACTS SDL2::SDL2
-    DESTINATION bin)
+
+if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.21.0") 
+    install(IMPORTED_RUNTIME_ARTIFACTS SDL2::SDL2
+        DESTINATION bin)
+endif()
 
 crt_add_packaged_dependency(SDL2::SDL2)
 
